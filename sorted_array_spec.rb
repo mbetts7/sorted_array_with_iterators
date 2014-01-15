@@ -54,19 +54,39 @@ describe SortedArray do
     end
   end
 
+#everything below here is much more difficult; look at docs and convert what the docs say into the spec
   describe :find do
-    it_should_behave_like "yield to all elements in sorted array", :find
+    #THIS IS WRONG: it_should_behave_like "yield to all elements in sorted array", :find
 
-    it "does not currently have any examples for it" do
-      pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-find"
+    # write better test
+    it "finds the value and returns the value" do
+      sorted_array.find  { |i| i == 4 }.should == 4    
+    end
+
+    it "cannot find the value and returns nil" do
+      sorted_array.find  { |i| i == 10 }.should == nil    
+      #pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-find"
     end
   end
 
   describe :inject do
-    it_should_behave_like "yield to all elements in sorted array", :inject
-
-    it "does not currently have any examples for it" do
-      pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-inject"
-    end
+    #THIS IS WRONG:  it_should_behave_like "yield to all elements in sorted array", :inject
+    # pending "define some examples by looking up http://www.ruby-doc.org/core-2.1.0/Enumerable.html#method-i-inject"
+    
+    # NOTE:  ED didn't finish copying the below text example 
+    #below is optional
+    # specify do 
+    #      expect do |b| 
+    #        block_with_two_args = Proc.new { |acc, el| return true }
+    #        sorted_array.send(method, &b) 
+    #      end.to yield_successive_args([0,2], [2,3], [5,4], [9,7], [16,9]) 
+    #    end
+    # end
+    it "should accumulate sum of sorted_array to equal 25" do
+      sorted_array.inject { |sum, n| sum + n }.should == 25 
+      end
+    # it " should accumulate product 1..5" do
+    #  (1..5).inject { |product, n| product * n }.should == 120 
+    # end
   end
 end

@@ -1,9 +1,9 @@
 class SortedArray
   attr_reader :internal_arr
 
-  def initialize arr=[]
+  def initialize new_array=[]
     @internal_arr = []
-    arr.each { |el| add el }
+    new_array.each { |el| add el }
   end
 
   def add el
@@ -38,22 +38,57 @@ class SortedArray
   end
 
   def each &block
-    raise NotImplementedError.new("You need to implement the each method!")
+  # loop over all elements in @internal_arr
+  # yield to each element  in that array
+  # keep track of index
+    i = 0
+    while i < @internal_arr.size
+      yield @internal_arr[i]
+      i += 1
+    end
+    return @internal_arr  
   end
 
   def map &block
-    raise NotImplementedError.new("You need to implement the map method!")
+    # invokes the given block for each element of self
+    # creates a new array containing the values returned by the block
+    new_array = []
+    i = 0
+    each do |el|
+      new_array[i] = yield(el)
+      i += 1
+    end
+    return new_array
   end
-
+    
   def map! &block
-    raise NotImplementedError.new("You need to implement the map! method!")
+    i = 0
+    each do |el|
+      @internal_arr[i] = block.call(el)
+      i += 1
+    end
+    return @internal_arr
   end
 
-  def find value
-    raise NotImplementedError.new("You need to implement the find method!")
+  def find &block
+    # returns a block that tests for equality, find 3 should return true when it finds 3, at that point it stops yielding
+    value = nil
+    i = 0
+    each do |el|
+      value = @internal_arr[i] if yield el
+      i += 1
+    end
+    return value
   end
 
   def inject acc=nil, &block
-    raise NotImplementedError.new("You need to implement the inject method!")
+    index = acc.nil? ? 1 : 0 
+    acc = @internal_arr[0] if acc.nil?
+    while index <= @internal_arr.length-1
+      acc = yield acc, @internal_arr[index]
+      index += 1
+    end
+    acc
   end
+
 end
